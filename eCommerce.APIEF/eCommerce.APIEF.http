@@ -1,0 +1,6 @@
+@eCommerce.APIEF_HostAddress = http://localhost:5203
+
+GET {{eCommerce.APIEF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
