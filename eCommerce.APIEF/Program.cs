@@ -1,3 +1,4 @@
+global using eCommerce.Models;
 using eCommerce.APIEF.Database;
 using eCommerce.APIEF.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
 
 builder.Services.AddDbContext<eCommerceContext>(
+    //GetConnectionString é próprio para pegar a string de conexão do appsetings
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("eCommerceEF"))
     );
 #endregion

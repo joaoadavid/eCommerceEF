@@ -16,10 +16,29 @@ namespace eCommerce.APIEF.Database
         }
         */
         #endregion
+                                                   //base é um construtor do DbContextOptions
         public eCommerceContext(DbContextOptions<eCommerceContext> options) :base (options)
         {
+            Usuario usuario = new Usuario();
+
             
         }
+        //cria a instancia dos bancos para que o EF possa gerar através das migrations
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Contato> Contatos { get; set; }
 
+        public DbSet<EnderecoEntrega> EnderecoEntregas { get; set; }
+
+        public DbSet<Departamento> Departamentos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Departamento>().HasData(
+                new Departamento { Id = 1 ,Nome = "Moda"},
+                new Departamento { Id = 1, Nome = "Informática"},
+                new Departamento { Id = 1, Nome = "Eletro"},
+                new Departamento { Id = 1, Nome = "Vestuario"}
+                );
+        }
     }
 }
