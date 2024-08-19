@@ -2,6 +2,8 @@ global using eCommerce.Models;
 using eCommerce.APIEF.Database;
 using eCommerce.APIEF.Repositories;
 using Microsoft.EntityFrameworkCore;
+using WatchDog;
+using WatchDog.src.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioRepository,UsuarioRepository>();
+
+builder.Services.AddWatchDogServices(opt =>
+{
+    opt.IsAutoClear = true;
+    //opt.ClearTimeSchedule = WatchDogAutoClearScheduleEnum.Weekly;
+    opt.SetExternalDbConnString = "Data Source=(localdb)\\MSSQLLocalDB";
+    opt.DbDriverOption = WatchDogDbDriverEnum.MSSQL;
+
+
+});
 
 builder.Services.AddDbContext<eCommerceContext>(
     //GetConnectionString é próprio para pegar a string de conexão do appsetings
@@ -35,5 +47,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseWatchDogExceptionLogger();
+
+app.UseWatchDog(opt =>
+{
+    opt.WatchPageUsername = "admin";
+    opt.WatchPagePassword = "12345678";
+});
 app.Run();
 #endregion
